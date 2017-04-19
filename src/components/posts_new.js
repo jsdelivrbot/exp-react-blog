@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../actions/index';
 import { Link } from 'react-router';
 
 class PostsNew extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  };
+
+  onSubmit(props) {
+    this.props.createPost(props)
+        .then(() => { // ES6: function () {}
+          //blog post has been created
+          //go to the home page by calling:
+          this.context.router.push('/');
+        });
+  }
+
   render() {
     // const handleSubmit = this.props.handleSubmit;
     // const title = this.props.fields.title;
@@ -12,10 +25,10 @@ class PostsNew extends Component {
     // the lines above in ES6:
     const { fields: { title, categories, content }, handleSubmit } = this.props;
 
-    console.log(title);
+    console.log(this.props);
 
     return (
-      <form onSubmit={handleSubmit(this.props.createPost)}>
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h3>Create a new post</h3>
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : ''}`}>
           <label>Title</label>
