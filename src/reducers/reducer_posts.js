@@ -1,4 +1,4 @@
-import { FETCH_POSTS } from '../actions/index';
+import { FETCH_POSTS, FETCH_POST } from '../actions/index';
 
 // 'all' is an array of all posts
 // 'post' is the active post
@@ -9,6 +9,9 @@ export default function(state = INITIAL_STATE, action) {
     case FETCH_POSTS:
       return { ...state, all: action.payload.data }; // this is the ES6 for state.concat([action.payload.data])
       break;
+    case FETCH_POST:
+        return { ...state, post: action.payload.data };
+        break;
     default:
       return state;
   }
